@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "6f5dc3ba-3ec3-43be-8b23-eb7e37d22c03",
+		"name": "Django and React JWT Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"biasonlucky10@gmail.com\",\n    \"first_name\": \"Lucas\",\n    \"last_name\": \"Biason\",\n    \"password\": \"mypass123\",\n    \"re_password\": \"mypass123\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/users/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uid\": \"Ng\",\n    \"token\": \"5qe-7658793713c0022b60e0\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/users/activation/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"users",
+						"activation",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password - Request",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"biasonlucky10@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/users/reset_password/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"users",
+						"reset_password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password - Confirmation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uid\": \"Ng\",\n    \"token\": \"5qe-7658793713c0022b60e0\",\n    \"new_password\": \"mypass123\",\n    \"re_new_password\": \"mypass123\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/users/reset_password_confirm/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"users",
+						"reset_password_confirm",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login - JWT Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"jwt_token_access\", pm.response.json()['access']);",
+							"pm.environment.set(\"jwt_token_refresh\", pm.response.json()['refresh']);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"biasonlucky10@gmail.com\",\n    \"password\": \"mypass123\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/jwt/create/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"jwt",
+						"create",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login - JWT Refresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"jwt_token_access\", pm.response.json()['access']);",
+							"pm.environment.set(\"jwt_token_refresh\", pm.response.json()['refresh']);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refresh\": \"{{jwt_token_refresh}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}auth/jwt/refresh/",
+					"host": [
+						"{{url_base}}auth"
+					],
+					"path": [
+						"jwt",
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
