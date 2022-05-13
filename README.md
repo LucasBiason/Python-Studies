@@ -56,3 +56,31 @@ Link: https://cursos.alura.com.br/course/python-testes-com-dubles
 
 Sobre: Projeto que capta informações de livros e armazena em base de dados.
 
+
+## Flask parte 1: Crie uma webapp com Python 3
+
+**Pasta:** Flask/jogoteca
+
+**Sobre:** um projeto de uma biblioteca de jogos.
+
+## Flask parte 2: Avançando no desenvolvimento web
+
+**Pasta:** Flask/jogoteca
+
+**Sobre:** continuando e complementando o projeto da biblioteca de jogos.
+
+## Flask Full Series - Web Application Development with Python
+
+**Pasta:** Flask/FlaskSeries
+
+**Link:** [Playlist](https://www.youtube.com/watch?v=p068JokuThU&list=PLOkVupluCIjuPtTkhO6jmA76uQR994Wvi)
+
+**Sobre:** aplicação de loja virtual
+
+## REST APIs com Python e Flask
+
+**Pasta:** Flask/RestFlask-Hotels
+
+**Link:** [Página Curso](https://www.udemy.com/course/rest-apis-com-python-e-flask/)
+
+**Sobre:** aplicação de hoteis com REST API em Flask

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<button type="button" class="btn btn-primary" style="margin-bottom:10px"
+  onclick='window.location.href="/novo"'>
+        Novo
+</button>
+
+<table class="table table-striped  table-bordered">
+    <thead class="thead-default">
+        <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Console</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if lista_jogos %}
+        {% for jogo in lista_jogos %}
+        <tr>
+            <td>{{ jogo.nome }}</td>
+            <td>{{ jogo.categoria }}</td>
+            <td>{{ jogo.console }}</td>
+            <td>
+                <a href = "{{ url_for('editar', id=jogo.id) }}">Editar</a>
+                <a href = "{{ url_for('deletar', id=jogo.id) }}">Deletar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>Nenhum jogo aqui...</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+
+{% endblock %}
