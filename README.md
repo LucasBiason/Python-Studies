@@ -38,3 +38,21 @@ Pasta: Environments
 Link: https://cursos.alura.com.br/course/python-ambientes-virtuais-docker-asdf
 
 Sobre: Configuração de ambiente para o projeto do curso anterior em Docker
+
+
+## Curso de Testes automatizados: TDD com Python
+Pasta: Tests/python_tests
+
+Link: https://cursos.alura.com.br/course/tdd-com-python
+
+Sobre: Projeto de um leilao, aplicando conceitos basicos de testes em python
+
+
+
+## Curso de Testes em Python: trabalhando com dublês de testes
+Pasta: Tests/python_duble
+
+Link: https://cursos.alura.com.br/course/python-testes-com-dubles
+
+Sobre: Projeto que capta informações de livros e armazena em base de dados.
+

@@ -1,0 +1,176 @@
+
+* Precisamos de dublês para simular acesso à internet, ao sistema de arquivos e banco de dados.
+Eles servem para substituir partes do sistema que não estão implementadas ou para simular comportamentos
+para que os testes tenham resultados determinísticos
+
+* Stub: fornece os dados pré-configurados, ou  seja, fornece entradas indiretas.
+
+* Um dublê do tipo Dummy serve para substituir parâmetros obrigatórios, mas não são usados na verificação do caso de teste e, por isso, são irrelevantes
+* Um dublê do tipo Stub fornece dados fabricados ou comportamentos esperados para serem usados na verificação do caso de teste
+
+* Spy: captura e armazena as informações geradas pela unidade testada.
+(captura as saídas indiretas para serem usadas na verificação do caso de teste, exemplo: erificar que exceções foram levantadas ou registradas)
+
+* Mock: objeto programado com comportamento esperado
+captura e armazena as informações geradas pela unidade testada.
+- Mock serve ao mesmo tempo para programar comportamento esperado e capturar as saídas indiretas para serem usados na verificação do caso de teste
+
+* Fake: um dublê do tipo Fake é uma implementação simplificada de uma dependência da unidade sob teste
+Exemplo: simular uma operação no banco de dados sem ter o efeito colateral nele
+
+
+Diferentemente de testes de unidade clássicos, os testes com dublês têm o foco em verificação de comportamento, enquanto os testes clássicos fazem a verificação de estado. 
+
+
+
+Pedido é a unidade sob teste (SUT – system under test), e Estoque é um colaborador.
+
+Exemplo de testes clássicos:
+
+def test_pedido_pode_ser_atendido_se_existe_estoque():
+    estoque = Estoque()
+    estoque.aumentar("Produto A", 5)
+
+    pedido = Pedido("Produto A", 5)
+    atendido = pedido.atender(estoque)
+
+    assert atendido is True
+    assert 0 == estoque.quantidade("Produto A")
+
+
+def test_pedido_nao_diminui_o_estoque_se_nao_pode_ser_atendido():
+    estoque = Estoque()
+    estoque.aumentar("Produto A", 1)
+
+    pedido = Pedido("Produto A", 5)
+    atendido = pedido.atender(estoque)
+
+    assert atendido is False
+    assert 1 == estoque.quantidade("Produto A")
+
+A verificação de estado é verificar os estados do SUT e de seus colaboradores depois do atributo (função) ter sido exercitado (executado no caso de teste). No caso, comparar os valores: a quantidade do estoque no final.
+
+Em Python dizemos que tudo é objeto, inclusive as funções. É por este motivo que conseguimos com que os dublês sejam aplicados nas funções. Usando a função patch conseguimos identificar a função ou o objeto que queremos substituir pelo dublê. No entanto, quando não é o caso de uma função, mas, sim, um objeto, e ele é uma dependência injetada (ou seja, é passado como parâmetro), não precisamos da função patch para embutir o dublê. Para estes casos, criamos um objeto que representa o dublê e o usamos.
+
+from unittest.mock import MagicMock, Mock, patch
+
+
+class Pedido:
+    def __init__(self, produto, qtd):
+        self.produto = produto
+        self.qtd = qtd
+
+    def atender(self, estoque):
+        try:
+            estoque.diminuir(self.produto, self.qtd)
+        except SemEstoque:
+            return False
+        else:
+            return True
+
+
+class SemEstoque(Exception):
+    pass
+
+
+class Estoque:
+    def __init__(self):
+        self.produtos = {}
+
+    def aumentar(self, produto, qtd):
+        self.produtos[produto] = self.produtos.get(produto, 0) + qtd
+
+    def diminuir(self, produto, qtd):
+        if self.quantidade(produto) >= qtd:
+            self.produtos[produto] -= qtd
+            return True
+        raise SemEstoque
+
+    def quantidade(self, produto):
+        if produto in self.produtos.keys():
+            return self.produtos[produto]
+        return 0
+
+Já na verificação de comportamento, é verificada a interação entre o SUT e os colaboradores. Então, a verificação foca em se foi possível diminuir o estoque.
+
+def test_pedido_pode_ser_atendido_se_existe_estoque():
+    estoque = Mock()
+    estoque.diminuir.return_value = True
+
+    pedido = Pedido("Produto A", 5)
+    atendido = pedido.atender(estoque)
+
+    assert atendido is True
+    estoque.diminuir.assert_called_once_with("Produto A", 5)
+
+
+def test_pedido_nao_diminui_o_estoque_se_nao_pode_ser_atendido():
+    estoque = Mock()
+    estoque.diminuir.side_effect = SemEstoque()
+    estoque.quantidade.return_value = 1
+
+    pedido = Pedido("Produto A", 5)
+    atendido = pedido.atender(estoque)
+
+    estoque.diminuir.assert_called_once_with("Produto A", 5)
+    assert atendido is False
+
+Usar ou não dublês tem suas vantagens e desvantagens. Por um lado, o uso de dublês foca na unidade sob teste, isolando-a de qualquer outra unidade. Mas, por outro lado, como os colaboradores reais não estão sendo testados, e por isso é necessário que eles mesmos sejam, em algum momento, as unidades sob teste. Quando usamos testes de unidade sem os dublês, 
+
+
+
+
+Os dublês de testes surgiram de demandas no desenvolvimento de softwares. São práticas no desenvolvimento e podem ser adotadas e implementadas em linguagens de programação. 
+
+Leitura recomendada: xunitpatterns.com/Test Double Patterns.html
+
+Quando usar:
+ - Para substituir:
+ * partes lentas do sistema (operações de Entrada/Saida)
+ * comportamentonão determinísticos (acesso a Internet)
+ * componentes não implementados (qualquer outra unidade do
+ sistema quenão esteja pronta, banco de dados) ou 
+ implementado por terceiros
+ * partes que podem causar efeitos colaterais indesejáveis como
+ criação/deleão de arquivos reais, criação ou deleção de registros em
+ base de dados
+
+ Quando não usar:
+ * podem deixar seu caso de teste muito acoplado com a unidade e 
+ dificl de mantê-lo
+ * pode indicar que o código da unidade está muito acoplado (
+     muitas dependencias)
+ * você pode estar testando o mock ao invés de testar a unidade (
+     falso positivos)
+ 
+Exemplo de acoplamentos do caso de testes com a unidade:
+
+def obter_dados_de_arquivo():
+    with open("/tmp/arquivo") as fp:
+        conteudo = fp.read()
+    return conteudo
+
+def test_obter_dados_de_arquivo():
+    with patch("open") as double:
+        duble.return_value = fake_arquivo
+    
+Mude para...
+
+from pathlib import Path
+
+def obter_dados_de_arquivo():
+   path = Path("/tmp/arquivo")
+   with path.open() as fp:
+       conteudo = fp.read()
+    return conteudo
+
+(Solução:)
+
+def test_obter_dados_de_arquivo(tmpdir):
+    arquivo = tmpdir.join("arquivo")
+    arquivo.write("conteudo do arquivo")
+
+    resultado = obter_dados_de_arquivo(arquivo)
+    assert "conteudo do arquivo" == resultado
+
+(ou seja... nao usar senão necessário)
