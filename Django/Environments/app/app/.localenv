@@ -1,0 +1,8 @@
+SECRET_KEY=THIS_IS_A_NOT_GOOD_SECRET
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1, .localhost
+DB_HOST='0.0.0.0'
+DB_NAME='controle_estoque'
+DB_USER='postgres'
+DB_PASS='admin'
+DB_PORT='5435'

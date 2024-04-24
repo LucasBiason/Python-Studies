@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <h1>Página de Exclusão de Funcionário</h1>
+
+    <form method="post" style="border: 1px solid #AAA; margin: 64px auto; padding: 32px; width: 50%;">
+        {% csrf_token %}
+
+        Você tem certeza que quer excluir o item <b>{{ item.nome }}</b>? <br><br>
+
+        <button type="button">
+            <a href="{% url 'core:lista_items' %}">Cancelar</a>
+        </button>
+        <button>Excluir</button>
+    </form>
+{% endblock content %}

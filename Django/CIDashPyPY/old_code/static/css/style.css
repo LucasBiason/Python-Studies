@@ -1,0 +1,10 @@
+html, body{
+    height: 100%;
+}
+.login-form{
+    margin-top:15px;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+}

@@ -1,0 +1,40 @@
+# Versão do Docker compose
+version: '3'
+
+# context . : onde esta o DockerFile
+# posts maquina local : maquina container
+# tty: rodando um processo continuamente
+# volumes : mapear o volume src local e o  container
+
+services: 
+    app:
+        build:
+            context: .
+        ports:
+         -  "8005:8005"
+        volumes: 
+         - ./app:/app
+         - ./app/static:/static
+        command: >
+            sh -c "python manage.py wait_for_db && 
+                python manage.py migrate && 
+                python manage.py collectstatic --noinput &&
+                python manage.py runserver 0.0.0.0:8005"
+        environment:
+            - DEBUG=False
+            - ALLOWED_HOSTS=0.0.0.0
+            - SECRET_KEY=CHAVENAOSEGURA
+            - DB_HOST=db
+            - DB_NAME=controle_estoque
+            - DB_USER=postgres
+            - DB_PASS=admin
+            - DB_PORT=5432
+        depends_on:
+            - db
+
+    db:
+        image: postgres:12-alpine
+        environment: 
+            - POSTGRES_DB=controle_estoque
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=admin

@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+
+{% block header %}
+<div class="row">
+  <div class="col-1">
+    <strong class="navbar-brand">
+     <i class="fab fa-gitlab"></i>&nbsp;Gitlab
+    </strong>
+  </div>
+  <div class="col-10">
+    <nav>
+      <ul class="nav nav-pills">
+        <!--li class="nav-item">
+          <a class="nav-link {{ 'active' if context.current_tab == 'users' else '' }}" href="/gitlab?current_tab=users" title="Ver usuários">Usuários</a>
+        </li-->
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if context.current_tab == 'projects' else '' }}" href="/gitlab?current_tab=projects" title="Ver projetos">Projetos</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!--section id="users" class="{{ 'hidden' if context.current_tab == 'projects' else '' }}">
+  <header class="mb-3">
+    <h2>Usuários</h2>
+  </header>
+  <table class="table table-striped table-bordered table-hover ">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Usuário</th>
+        <th scope="col">Status</th>
+        <th scope="col">Admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>== Email do Usuário ==</td>
+        <td>== Nome do Usuário ==</td>
+        <td>== Status do Usuário ==</td>
+        <td>== Usuário é Admin ==</td>
+      </tr>
+    </tbody>
+  </table>
+</section-->
+
+<section id="projects" class="{{ 'hidden' if context.current_tab == 'users' else '' }}">
+  <header class="mb-3">
+    <h2>Projetos</h2>
+  </header>
+  <table class="table table-striped table-bordered table-hover ">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="col-md-4">Nome do Projeto</th>
+        <th scope="col" class="col-md-2">Link SSH</th>
+        <th scope="col" class="col-md-4">Dono</th>
+        <th scope="col" class="col-md-2">Ações</th>      
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in context.projects %}
+      <tr>
+        <td>
+          <img src='{{ project.avatar_url }} ' width="40px">
+          <span><b>{{ project.name }}</b></span><br/> {{ project.description }}
+        </td>
+        <td>
+          {% if project.visibility == 'private' %}
+          <i class="fas fa-user-shield text-danger" title="Privado"></i>
+          {% else %}
+          <i class="fas fa-globe-americas text-success" title="Público"></i>
+          {% endif %}
+          {{ project.ssh_url_to_repo }}
+        </td>
+        <td>
+            <img src='{{ project.owner.avatar_url }}' width="40px">
+            <span><b>{{ project.owner.name }}</b></span>
+        </td>
+        <td>
+          <a href='{{ project.web_url }}'class="btn btn-primary btn-block btn-sm">
+              <i class="fas fa-external-link-alt"></i>Acessar
+          </a>
+          <a href='/gitlab/{{ project.id }}/commits/'class="btn btn-primary btn-block btn-sm">
+              <i class="fas fa-comment-alt"></i>Commits
+          </a>
+        </td>      
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block header %}
+<div class="row">
+  <div class="col-10">
+    <strong class="navbar-brand">
+     <i class="fab fa-gitlab"></i>&nbsp;
+     <img src='{{ context.project.avatar_url }} ' width="40px">
+     <span><b>{{ context.project.name }}</b></span><br/>
+    </strong>
+    {{ context.project.description }}
+  </div>
+  <div class='col-2 text-right'>
+    <a href="/gitlab?current_tab=projects">
+      <i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Voltar
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<section id="commits">
+  <header class="mb-3">
+    <h2>Commits</h2>
+  </header>
+  <table class="table table-striped table-bordered table-hover ">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="col-md-4">Descrição</th>
+        <th scope="col" class="col-md-2">Data</th>
+        <th scope="col" class="col-md-4">Autor</th>    
+      </tr>
+    </thead>
+    <tbody>
+      {% for commit in context.commits %}
+      <tr>
+        <td>
+          {{ commit.message }}
+        </td>
+        <td>
+          {{ commit.committed_date|dt }}
+        </td>
+        <td>
+            <span><b>{{ commit.author_name }}</b></span> <br/>
+            {{ commit.author_email }}
+        </td>    
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block header %}
+<strong class="navbar-brand">Jenkins</strong>
+{% endblock %}
+{% block content %}
+<h2>== Nome do Job ==</h2>
+<form class="mt-4" action="/jenkins/reconfig" method="POST">
+  <div class="form-group">
+    <input type="hidden" name="name" value="== Nome do Job ==">
+    <textarea class="form-control" name="xml" rows="10">
+      == XML do Job ==
+    </textarea>
+  </div>
+  <button class="btn btn-primary float-right" type="submit">Atualizar</button>
+</form>
+{% endblock %}

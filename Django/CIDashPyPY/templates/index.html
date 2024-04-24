@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Python | SysAdmin</title>
+
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="/static/css/style.css">
+  
+</head>
+<body>
+  
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="alerts">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if context.route.is_public %}
+    <div class="jumbotron">
+      <h1 class="display-4">Python for SysAdmin</h1>
+    </div>  
+  {% else %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5 p-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <div class="logo logo-mask"></div>
+          <img src="/static/images/logo.svg" class="logo" alt="Python for SysAdmin" title="Python for SysAdmin">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item {{ 'active' if context.page == 'docker' else '' }}">
+              <a class="nav-link" href="/docker" title="Docker"><i class="fab fa-docker"></i>&nbsp;Docker</a>
+            </li>
+            <li class="nav-item {{ 'active' if context.page == 'jenkins' else '' }}">
+              <a class="nav-link" href="/jenkins" title="Jenkins"><i class="fab fa-jenkins"></i>&nbsp;Jenkins</a>
+            </li>  
+            <li class="nav-item {{ 'active' if context.page == 'gitlab' else '' }}">
+              <a class="nav-link" href="/gitlab?current_tab=projects" title="Gitlab"><i class="fab fa-gitlab"></i>&nbsp;Gitlab</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action="/sign-out" method="POST">
+            <button class="btn btn-outline-secondary" type="submit" title="Sair">
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  {% endif %}
+
+  <div class="container {{ context.page }}">
+    <div class="card shadow rounded">
+      <div class="card-header">
+        <header>
+          {% block header %}
+          {% endblock %}
+        </header>
+      </div>
+      <div class="card-body">
+        <main>
+          {% block content %}
+          {% endblock %}
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script src="/static/js/app.js"></script>
+
+</body>
+</html>

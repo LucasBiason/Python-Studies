@@ -1,0 +1,93 @@
+
+Além dos padrões de projeto
+
+Existem ainda muitos outros padrões de projeto espalhados por aí. Padrões que visam ajudar na solução dos mais diversos tipos de problemas. Como sempre, ao ver um padrão, entenda a motivação do padrão; a razão dele existir. Não vá direto para a implementação. Um padrão é mais do que uma implementação, mas sim um conceito, uma ideia de como resolver um problema. Há também a possibilidade de um padrão de projeto não ser necessário quando algum recurso da linguagem resolve elegantemente o problema em questão. Vimos que isso pode ser verdade em linguagens multiparadigmas com Python.
+
+Mas no final, lembre-se: o que importa é código de qualidade. Se você implementou uma solução que faz uso de boa orientação a objetos ou de recursos bem aplicados da programação funcional, não tem problema; o seu código e os outros desenvolvedores agradecem mesmo assim!
+
+
+
+Qual é o padrão para o problema dos Vários Filtros?
+
+
+Imagine que estamos implementando uma sequência de filtros. Esses filtros precisam eliminar diversas faturas de uma lista, de acordo com algumas regras de negócio: faturas menores que 2000 devem ser eliminadas, faturas maiores do que 8000 devem ser eliminadas, faturas entre 3000 e 4500 que foram emitidas no estado de São Paulo devem ser eliminadas, e assim por diante.
+
+Uma implementação procedural produziria uma sequência de ifs enorme para verificar todas essas condições.
+
+Dentre os padrões de projeto aqui aprendidos, qual se encaixa melhor para esse problema?
+
+Resposta:
+O Decorator se encaixaria bem nesse problema. Poderíamos fazer com que cada filtro seja um "Decorator", e vamos decorando a lista com todos os filtros existentes. Cada filtro teria sua própria classe, simples e fácil de ser compreendida e mantida.
+
+O Chain of Responsibility poderia ser uma alternativa também. Mas idealmente, em um "chain", assim que encontra-se um nó da corrente que atende aquele problema, os outros não são executados. Uma comum implementação do padrão são filtros, iguais os usados em aplicações web Python/Django e etc, e neles os filtros se combinam e muitos podem ser executados ao mesmo tempo.
+
+
+
+Qual é o padrão para o problema da Notificação de Sistemas Externos?
+
+
+Imagina que você precise avisar 3 sistemas externos (auditoria, financeiro, e agências), assim que uma conta bancária receber um depósito.
+
+Em uma implementação procedural, todas essas atividades seriam invocadas logo após a operação de depósito, fazendo com que essa classe perca coesão, e fique complicada de ser entendida e mantida.
+
+Dentre os padrões de projeto aqui aprendidos, qual se encaixa melhor para esse problema?
+
+Resposta:
+O Observer se encaixaria muito bem. Ele permite que você notifique e execute ações após algum acontecimento no seu sistema. E faz isso de tal forma que o acoplamento entre classes continue baixo, e flexível para adicionar novas ações quando necessário.
+
+
+
+Qual é o padrão para o problema dos Algoritmos Similares?
+
+
+Imagine que temos uma série de algoritmos matemáticos a serem implementados. Todos eles são bem parecidos, possuem a mesma estrutura. As variações são mínimas, por exemplo, um deles deve iterar até o fim da lista, enquanto o outro deve iterar até a metade dela.
+
+Uma implementação procedural possuiria uma alta repetição de código, já que os algoritmos são muito parecidos.
+
+Dentre os padrões de projeto aqui aprendidos, qual se encaixa melhor para esse problema?
+
+Resposta:
+O Template Method cairia como uma luva, já que ele possibilita que o desenvolvedor escreva a "estrutura" do algoritmo apenas uma vez, e a reutilize nas implementações específicas de cada um dos algoritmos.
+
+Isso faz com o que o código fique mais simples, possibilita que mudanças na estrutura desses algoritmos sejam facilmente modificadas, e que novos algoritmos sejam criados de forma simples.
+
+
+
+Qual é o padrão para o problema do Contrato?
+
+
+Um Contrato pode sofrer tipos de alterações, descontos, ajustes enquanto está EM ANDAMENTO. O mesmo pode acontecer quando ele está FALTANDO ASSINATURA DO CLIENTE. Mas, após ASSINADO, o contrato não pode mais sofrer alterações.
+
+Um código procedural muito provavelmente conteria um conjunto enorme de ifs, um para cada possível estado do Contrato e ação a ser executada, tornando o código desnecessariamente complexo e difícil de ser mantido.
+
+Dentre os padrões de projeto aqui aprendidos, qual se encaixa melhor para esse problema?
+
+
+Resposta:
+O State facilitaria o trabalho do desenvolvedor, já que ele possibilitaria que as ações de cada estado fiquem centralizadas em classes específicas, evitando a possível bagunça de um código procedural cheio de ifs.
+
+Além disso, criar novos estados para esse contrato também seria fácil.
+
+
+
+O que voce pensa sobre Padrões de Projeto?
+
+
+Muitos desenvolvedores tentam forçar ao máximo o uso de padrões nos códigos. O que você pensa sobre isso? Usar padrões 100% do tempo é o ideal? Quais são as vantagens e desvantagens?
+
+
+Resposta:
+
+Padrões de projeto trazem grande flexibilidade ao seu código, mas isso tem um preço: complexidade. Naturalmente um código que faz uso de padrões de projeto é, do ponto de vista de implementação, mais complexo do que um código que não os utiliza. Afinal, como tudo está desacoplado, o desenvolvedor precisa entender melhor a solução para entender o que o código faz como um todo.
+
+Um bom desenvolvedor sabe fazer essa avaliação e entender quais os ganhos e perdas da utilização de um padrão. Em um problema simples de resolver, talvez o uso de um padrão de projeto não faça sentido; o código vai apenas ficar mais complicado. Agora, em problemas que são por natureza complexos, ou que demandam flexibilidade, pois mudam o tempo todo, talvez a utilização de um padrão de projeto traga benefícios, já que todos os padrões sempre agregam flexibilidade ao código gerado.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+version: '3'
+services:
+      
+  openldap:
+    image: osixia/openldap:latest
+    environment:
+      LDAP_DOMAIN: "dexter.com.br"
+      LDAP_ADMIN_PASSWORD: "4linux"
+    ports:
+      - "636:636"
+      - "389:389"
+
+  jenkins:
+    image: jenkins/jenkins
+    ports:
+      - "8080:8080"
+
+  #gitlab:
+  #  image: gitlab/gitlab-ce
+  #  ports:
+  #    - "443:443"
+  #    - "8000:80"
