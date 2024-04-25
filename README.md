@@ -122,12 +122,27 @@ docker-compose run app sh -c "python manage.py runserver 0.0.0.0:8000"
 
 
 ### Dashboard simples com Streamlit
-**Pasta:** Dashboards/Streamlit/streamlitbase
+**Pasta:** Dashboards/Streamlit/streamlit-quickstart
 
 **Sobre:** um projeto de um dashboard simples com apenas um gráfico, um quickstart para entender melhor a ferramenta
 
 
 ### Dashboard de Vendas com Streamlit
-**Pasta:** Dashboards/Streamlit/streamlite-dashboard
+**Pasta:** Dashboards/Streamlit/streamlit-dashboard
 
 **Sobre:** um projeto de um dashboard simples com apenas um gráfico, um quickstart para entender melhor a ferramenta
+
+
+### Streamlit conectando com postgres (test Case)
+**Pasta:** Dashboards/Streamlit/streamlit-postgres
+
+**Sobre:** um projeto de um dashboard simples com apenas um exemplo de como integrar Streamlit e postgres
+
+
+### Streamlit com Login e MultiPages
+**Pasta:** Dashboards/Streamlit/streamlit-multipage
+
+**Sobre:** um projeto de uma pagina de login fixa que leva a uma Home e um menu onde é possivel navegar em três paginas apenas se logado.
+Este projeto não utilizou o multipages do Streamlit devido a criação de uma sidebar irritante e pouco configurável onde colocou o nome dos arquivos.
+Isso me fez pensar em utilizar o Streamlit apenas para Dashboards pontuais com um login simples.
+
